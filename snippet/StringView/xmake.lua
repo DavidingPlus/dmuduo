@@ -1,0 +1,5 @@
+target("StringView1")
+    set_kind("binary")
+    add_files("main1.cpp")
+    set_languages("cxx20")
+target_end()
