@@ -6,7 +6,7 @@
 // 一种常见的 optional 使用情况是一个可能失败的函数的返回值。与其他手段，如 std::pair<T, bool> 相比，optional 良好地处理构造开销高昂的对象，并更加可读，因为它显式表达意图。
 
 
-std::optional<double> getValue(bool r)
+std::optional<double> getOpt(bool r)
 {
     if (r)
     {
@@ -18,24 +18,24 @@ std::optional<double> getValue(bool r)
     }
 }
 
-void checkValue(const std::optional<double> &value)
+void checkOpt(const std::optional<double> &opt)
 {
-    if (value.has_value())
+    if (opt.has_value())
     {
-        std::cout << "Value: " << *value << std::endl;
+        std::cout << "Opt: " << *opt << std::endl;
     }
     else
     {
-        std::cout << "No value: " << *value << std::endl;
+        std::cout << "No opt: " << *opt << std::endl;
     }
 }
 
 
 int main()
 {
-    auto value = getValue(true);
-    checkValue(value);
+    auto opt = getOpt(true);
+    checkOpt(opt);
 
-    value = getValue(false);
-    checkValue(value);
+    opt = getOpt(false);
+    checkOpt(opt);
 }
