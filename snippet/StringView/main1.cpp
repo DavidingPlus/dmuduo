@@ -9,6 +9,9 @@
 // void parse(std::string_view sv); // 零拷贝。
 // parse("hello world");            // O(1)，直接指向字面量。
 
+// 只读访问字符串内容，用 string_view，零拷贝，兼容所有字符串类型。
+// 需要存储字符串副本，用 std::string，string_view 不 owning，拷贝后悬垂。
+
 
 int main()
 {
@@ -29,6 +32,7 @@ int main()
 
     // 下标访问，无边界检查。
     std::cout << "sv[0]: " << sv[0] << std::endl;
+    // TODO 这行越界了，但是能正常跑通，为什么？
     // std::cout << "sv[15]: " << sv[15] << std::endl;
 
     // 下标访问，有边界检查（抛异常）。
