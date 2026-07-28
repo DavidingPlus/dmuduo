@@ -4,6 +4,9 @@
 #include <iomanip>
 
 
+// 备注：不管是移动构造、operator=、emplace 还是 swap，必须是前后两种数据类型相同或者两种数据类型可以隐式转换。
+
+
 template <typename T>
 void checkOpt(const std::optional<T> &opt)
 {
