@@ -1,4 +1,5 @@
 target("TemporaryTest")
     set_kind("binary")
     add_files("main.cpp")
+    set_languages("cxx23")
 target_end()
