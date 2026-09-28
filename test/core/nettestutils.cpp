@@ -436,7 +436,7 @@ namespace NetTestUtils
 
     ScopedFd createTempFileWithContent(const std::string &content)
     {
-        char path[] = "/tmp/muduo-core-tcpconnection-XXXXXX";
+        char path[] = "/tmp/dmuduo-tcpconnection-XXXXXX";
         const int fd = ::mkstemp(path);
         EXPECT_GE(fd, 0);
         if (fd >= 0)

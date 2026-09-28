@@ -1,5 +1,5 @@
 target("LoggerTest")
     set_kind("binary")
     add_files("main.cpp")
-    add_deps("muduo-core")
+    add_deps("dmuduo")
 target_end()

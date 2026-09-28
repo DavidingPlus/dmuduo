@@ -246,7 +246,7 @@ TEST_F(LoggerTest, LogDebugMacro)
     auto output = captureOutput([]()
                                 { LOG_DEBUG("debug {}", 321); });
 
-#if MUDUO_CORE_CONFIG_DEBUG
+#if DMUDUO_CONFIG_DEBUG
     EXPECT_NE(output.find("[ DEBUG ]"), std::string::npos);
     EXPECT_NE(output.find("debug 321"), std::string::npos);
 #else
@@ -261,7 +261,7 @@ TEST_F(LoggerTest, LogDebugMacroWithoutVariadicArgs)
     auto output = captureOutput([]()
                                 { LOG_DEBUG("plain debug message"); });
 
-#if MUDUO_CORE_CONFIG_DEBUG
+#if DMUDUO_CONFIG_DEBUG
     EXPECT_NE(output.find("[ DEBUG ]"), std::string::npos);
     EXPECT_NE(output.find("plain debug message"), std::string::npos);
 #else

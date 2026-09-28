@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_BUFFER_H_
-#define _MUDUO_CORE_BUFFER_H_
+#ifndef _DMUDUO_BUFFER_H_
+#define _DMUDUO_BUFFER_H_
 
 #include <vector>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_GLOBALMACROS_H_
-#define _MUDUO_CORE_GLOBALMACROS_H_
+#ifndef _DMUDUO_GLOBALMACROS_H_
+#define _DMUDUO_GLOBALMACROS_H_
 
 
 #define CLASS_NONCOPYABLE(ClassName)                       \

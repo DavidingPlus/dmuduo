@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_LOGGER_H_
-#define _MUDUO_CORE_LOGGER_H_
+#ifndef _DMUDUO_LOGGER_H_
+#define _DMUDUO_LOGGER_H_
 
 #include "globalmacros.h"
 
@@ -35,7 +35,7 @@
         std::abort();                                      \
     } while (0)
 
-#if MUDUO_CORE_CONFIG_DEBUG
+#if DMUDUO_CONFIG_DEBUG
 #define LOG_DEBUG(...)                                     \
     do                                                     \
     {                                                      \

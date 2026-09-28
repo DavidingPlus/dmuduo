@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_CURRENTTHREAD_H_
-#define _MUDUO_CORE_CURRENTTHREAD_H_
+#ifndef _DMUDUO_CURRENTTHREAD_H_
+#define _DMUDUO_CURRENTTHREAD_H_
 
 #include <unistd.h>
 #include <sys/syscall.h>

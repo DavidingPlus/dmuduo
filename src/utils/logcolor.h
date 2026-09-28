@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_LOGCOLOR_H_
-#define _MUDUO_CORE_LOGCOLOR_H_
+#ifndef _DMUDUO_LOGCOLOR_H_
+#define _DMUDUO_LOGCOLOR_H_
 
 #include <iostream>
 

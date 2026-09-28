@@ -9,8 +9,8 @@ local export_headers_import_options = {rootdir = os.scriptdir(), anonymous = tru
 set_version(version)
 
 set_xmakever("3.0.9")
-set_project("Muduo Core")
-set_description("Core Implementation Of Muduo Library.")
+set_project("dmuduo")
+set_description("Core Implementation Of dmuduo Library.")
 set_languages("cxx17")
 
 add_rules("mode.debug", "mode.release")
@@ -61,7 +61,7 @@ if install_in_place then
     set_installdir("$(builddir)/$(plat)/$(arch)/$(mode)/install")
 end
 
-target("muduo-core")
+target("dmuduo")
     set_kind(build_shared and "shared" or "static")
 
     apply_current_platform_target_config()

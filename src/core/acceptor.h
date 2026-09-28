@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_ACCEPTOR_H_
-#define _MUDUO_CORE_ACCEPTOR_H_
+#ifndef _DMUDUO_ACCEPTOR_H_
+#define _DMUDUO_ACCEPTOR_H_
 
 #include "globalmacros.h"
 

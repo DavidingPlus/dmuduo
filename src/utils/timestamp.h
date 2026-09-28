@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_TIMESTAMP_H_
-#define _MUDUO_CORE_TIMESTAMP_H_
+#ifndef _DMUDUO_TIMESTAMP_H_
+#define _DMUDUO_TIMESTAMP_H_
 
 #include <string>
 

@@ -7,7 +7,7 @@
 
 Poller *Poller::NewDefaultPoller(EventLoop *loop)
 {
-    const char *poller = ::getenv("MUDUO_DEFAULT_POLLER");
+    const char *poller = ::getenv("DMUDUO_DEFAULT_POLLER");
 
     // TODO 暂不支持 Poll。
     if (poller && std::string("Poll") == poller)

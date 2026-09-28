@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_CHANNEL_H_
-#define _MUDUO_CORE_CHANNEL_H_
+#ifndef _DMUDUO_CHANNEL_H_
+#define _DMUDUO_CHANNEL_H_
 
 #include "globalmacros.h"
 

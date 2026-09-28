@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_INETADDRESS_H_
-#define _MUDUO_CORE_INETADDRESS_H_
+#ifndef _DMUDUO_INETADDRESS_H_
+#define _DMUDUO_INETADDRESS_H_
 
 #include <string>
 

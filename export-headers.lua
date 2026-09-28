@@ -1,4 +1,4 @@
--- 这个脚本只服务于“发布阶段”的头文件导出。开发阶段仍然直接使用 src/ 下的原始头文件，不改源码里的 include 写法。到 install/package 时，再生成一份导出头文件树，并把其中的 quoted include 重写为稳定的发布路径，例如：#include "acceptor.h" 变成：#include "muduo-core/core/acceptor.h"
+-- 这个脚本只服务于“发布阶段”的头文件导出。开发阶段仍然直接使用 src/ 下的原始头文件，不改源码里的 include 写法。到 install/package 时，再生成一份导出头文件树，并把其中的 quoted include 重写为稳定的发布路径，例如：#include "acceptor.h" 变成：#include "dmuduo/core/acceptor.h"
 -- manifest 会在一次 xmake 运行里重复使用，所以做一层缓存，避免每个 hook 都重新扫描整个 src/**.h。
 local public_header_manifest = nil
 
@@ -29,8 +29,8 @@ local function get_public_header_manifest(target)
     }
 
     -- 导出结构保留 src/ 下的相对层级。例如：
-    -- src/core/tcpserver.h  -> muduo-core/core/tcpserver.h
-    -- src/utils/callbacks.h -> muduo-core/utils/callbacks.h
+    -- src/core/tcpserver.h  -> dmuduo/core/tcpserver.h
+    -- src/utils/callbacks.h -> dmuduo/utils/callbacks.h
     -- 这样发布目录和源码目录的语义保持一致，调试、排查和维护都更直接。
     for _, header in ipairs(os.files("src/**.h")) do
         local relative = path.relative(header, "src"):gsub("\\", "/")
@@ -126,7 +126,7 @@ end
 -- 生成导出头文件树。产物形态大致如下：
 --   export-headers/
 --     include/
---       muduo-core/
+--       dmuduo/
 --         core/...
 --         utils/...
 --         config.h

@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_THREAD_H_
-#define _MUDUO_CORE_THREAD_H_
+#ifndef _DMUDUO_THREAD_H_
+#define _DMUDUO_THREAD_H_
 
 #include "globalmacros.h"
 

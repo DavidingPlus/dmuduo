@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_NETUTILS_H_
-#define _MUDUO_CORE_NETUTILS_H_
+#ifndef _DMUDUO_NETUTILS_H_
+#define _DMUDUO_NETUTILS_H_
 
 class EventLoop;
 

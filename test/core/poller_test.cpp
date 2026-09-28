@@ -42,10 +42,10 @@ TEST(PollerTest, HasChannelUsesStoredDescriptorMapping)
 // 验证默认 Poller 工厂会读取环境变量并按配置返回实现。
 TEST(PollerTest, DefaultFactoryHonorsConfiguredImplementation)
 {
-    ScopedEnvVar env("MUDUO_DEFAULT_POLLER");
+    ScopedEnvVar env("DMUDUO_DEFAULT_POLLER");
 
     // 先清空环境变量，确认默认分支会回落到 EPollPoller。
-    ::unsetenv("MUDUO_DEFAULT_POLLER");
+    ::unsetenv("DMUDUO_DEFAULT_POLLER");
     {
         std::unique_ptr<Poller> poller(Poller::NewDefaultPoller(nullptr));
         ASSERT_NE(poller, nullptr);
@@ -53,7 +53,7 @@ TEST(PollerTest, DefaultFactoryHonorsConfiguredImplementation)
     }
 
     // 再切到不支持的实现名，确认工厂会拒绝创建。
-    ::setenv("MUDUO_DEFAULT_POLLER", "Poll", 1);
+    ::setenv("DMUDUO_DEFAULT_POLLER", "Poll", 1);
     EXPECT_EQ(Poller::NewDefaultPoller(nullptr), nullptr);
 }
 

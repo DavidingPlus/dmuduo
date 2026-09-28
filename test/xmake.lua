@@ -19,7 +19,7 @@ target("tests")
 
     set_kind("binary")
     set_targetdir("$(builddir)/$(plat)/$(arch)/$(mode)/test")
-    add_deps("muduo-core")
+    add_deps("dmuduo")
     add_packages("gtest")
 
     before_build(function ()

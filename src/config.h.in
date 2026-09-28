@@ -10,40 +10,40 @@
  *
  */
 
-#ifndef _MUDUO_CORE_CONFIG_H_
-#define _MUDUO_CORE_CONFIG_H_
+#ifndef _DMUDUO_CONFIG_H_
+#define _DMUDUO_CONFIG_H_
 
 
 /**
  * @brief 完整版本号（X.Y.Z）。
  */
-#define MUDUO_CORE_CONFIG_VERSION "${VERSION}"
+#define DMUDUO_CONFIG_VERSION "${VERSION}"
 
 /**
  * @brief 主版本号。
  */
-#define MUDUO_CORE_CONFIG_VERSION_MAJOR ${VERSION_MAJOR}
+#define DMUDUO_CONFIG_VERSION_MAJOR ${VERSION_MAJOR}
 
 /**
  * @brief 次版本号。
  */
-#define MUDUO_CORE_CONFIG_VERSION_MINOR ${VERSION_MINOR}
+#define DMUDUO_CONFIG_VERSION_MINOR ${VERSION_MINOR}
 
 /**
  * @brief 修订版本号。
  * @details patch 和 alter 均可。Linux 内核的习惯是 patch，这里顺从 XMake 内置变量命名规则，即 alter。
  */
-#define MUDUO_CORE_CONFIG_VERSION_ALTER ${VERSION_ALTER}
+#define DMUDUO_CONFIG_VERSION_ALTER ${VERSION_ALTER}
 
 /**
  * @brief 构建模式，DEBUG 或 RELEASE。
  */
-#define MUDUO_CORE_CONFIG_MODE ${MODE}
+#define DMUDUO_CONFIG_MODE ${MODE}
 
 /**
  * @brief 构建模式是否为 DEBUG。
  */
-#define MUDUO_CORE_CONFIG_DEBUG ${DEBUG}
+#define DMUDUO_CONFIG_DEBUG ${DEBUG}
 
 
 #endif

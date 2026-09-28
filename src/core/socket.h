@@ -1,5 +1,5 @@
-#ifndef _MUDUO_CORE_SOCKET_H_
-#define _MUDUO_CORE_SOCKET_H_
+#ifndef _DMUDUO_SOCKET_H_
+#define _DMUDUO_SOCKET_H_
 
 #include "globalmacros.h"
 
