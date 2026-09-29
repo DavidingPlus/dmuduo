@@ -83,7 +83,7 @@ jobs:
         printf 'PACKAGE_NAME=%s\n' "$package_name" >> "$GITHUB_ENV"
 
     - name: Upload package metadata
-      if: matrix.os == 'windows' && matrix.runtime == 'MD' && matrix.shared == false
+      if: matrix.plat == 'linux' && matrix.xmake-arch == 'x86_64' && matrix.shared == false
       uses: actions/upload-artifact@v4
       with:
         name: package-metadata
