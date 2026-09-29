@@ -5,5 +5,5 @@
 
 int main()
 {
-    std::cout << reinterpret_cast<void *>(Poller::NewDefaultPoller(nullptr)) << std::endl; // 不为空。
+    std::cout << reinterpret_cast<void *>(dmuduo::Poller::NewDefaultPoller(nullptr)) << std::endl; // 不为空。
 }
