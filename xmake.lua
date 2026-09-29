@@ -5,7 +5,7 @@ includes("config.lua")
 
 local project_name = "dmuduo"
 local macro_prefix = "DMUDUO"
-local version = "1.0.1"
+local version = "1.1.0"
 local export_headers_module = "export-headers"
 local export_headers_import_options = {rootdir = os.scriptdir(), anonymous = true}
 
