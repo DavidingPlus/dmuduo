@@ -20,7 +20,7 @@
 #endif
 
 
-#define ${MACRO_PREFIX}_DMUDUO_CLASS_NONCOPYABLE(ClassName)             \
+#define ${MACRO_PREFIX}_CLASS_NONCOPYABLE(ClassName)                    \
                                                                \
 private:                                                       \
                                                                \
