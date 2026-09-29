@@ -1,4 +1,4 @@
--- 这个脚本只服务于“发布阶段”的头文件导出。开发阶段仍然直接使用 src/ 下的原始头文件，不改源码里的 include 写法。到 install/package 时，再生成一份导出头文件树，并把其中的 quoted include 重写为稳定的发布路径，例如：#include "acceptor.h" 变成：#include "dmuduo/core/acceptor.h"
+-- 这个脚本只服务于“发布阶段”的头文件导出。开发阶段仍然直接使用 src/ 下的原始头文件，不改源码里的 include 写法。到 install/package 时，再生成一份导出头文件树，并把其中的 quoted include 重写为稳定的发布路径，例如：#include "acceptor.h" 变成：#include "muduo-core/core/acceptor.h"
 -- manifest 会在一次 xmake 运行里重复使用，所以做一层缓存，避免每个 hook 都重新扫描整个 src/**.h。
 local public_header_manifest = nil
 
@@ -10,6 +10,19 @@ end
 -- 发布前缀直接取 target 名称，这样脚本不会硬编码死。如果以后 target 改名，导出路径会自动跟着变。
 local function get_public_header_prefix(target)
     return target:name()
+end
+
+-- 配置头由 XMake 从 src/*.h.in 生成，与源码树中的 public header 不同，但发布时仍作为普通的 public header 一起进入同一份清单。
+local function add_generated_public_header(manifest, public_header_prefix, filename)
+    local entry = {
+        relative = filename,
+        source = "$(builddir)/config/" .. filename,
+        install = (public_header_prefix .. "/" .. filename):gsub("\\", "/"),
+        generated = true,
+    }
+
+    manifest.by_basename[filename] = entry
+    table.insert(manifest.entries, entry)
 end
 
 -- 构造 public header 清单。这里记录三类索引：
@@ -29,8 +42,8 @@ local function get_public_header_manifest(target)
     }
 
     -- 导出结构保留 src/ 下的相对层级。例如：
-    -- src/core/tcpserver.h  -> dmuduo/core/tcpserver.h
-    -- src/utils/callbacks.h -> dmuduo/utils/callbacks.h
+    -- src/core/tcpserver.h  -> muduo-core/core/tcpserver.h
+    -- src/utils/callbacks.h -> muduo-core/utils/callbacks.h
     -- 这样发布目录和源码目录的语义保持一致，调试、排查和维护都更直接。
     for _, header in ipairs(os.files("src/**.h")) do
         local relative = path.relative(header, "src"):gsub("\\", "/")
@@ -61,6 +74,10 @@ local function get_public_header_manifest(target)
             manifest.by_basename[basename] = false
         end
     end
+
+    -- config.h 和 globalmacros.h 都由 XMake 生成，和 src/**.h 一样通过清单导出。
+    add_generated_public_header(manifest, public_header_prefix, "config.h")
+    add_generated_public_header(manifest, public_header_prefix, "globalmacros.h")
 
     public_header_manifest = manifest
     return manifest
@@ -97,15 +114,8 @@ local function resolve_public_header_entry(manifest, header, include_text)
 end
 
 -- 只重写 quoted include，不碰系统头和第三方头。例如：#include <string>，#include <fmt/format.h> 这两类不应该被发布脚本介入。
-local function rewrite_public_header_content(target, manifest, header, content)
-    local public_header_prefix = get_public_header_prefix(target)
-
+local function rewrite_public_header_content(manifest, header, content)
     return (content:gsub('([ \t]*#include[ \t]+")([^"]+)(")', function(prefix, include_text, suffix)
-        -- config.h 不是源码树里的静态头文件，而是构建阶段生成出来的。因此导出头文件里如果还保留：#include "config.h"，发布后就会丢失上下文。这里统一改成：#include "<target-name>/config.h"。让安装包和发布包里的 logger.h 等公共头都能稳定引用到它。
-        if include_text == "config.h" then
-            return prefix .. public_header_prefix .. "/config.h" .. suffix
-        end
-
         local entry = resolve_public_header_entry(manifest, header, include_text)
         if entry then
             return prefix .. entry.install .. suffix
@@ -126,10 +136,11 @@ end
 -- 生成导出头文件树。产物形态大致如下：
 --   export-headers/
 --     include/
---       dmuduo/
+--       <target-name>/
 --         core/...
 --         utils/...
 --         config.h
+--         globalmacros.h
 local function export_public_headers(target)
     local manifest = get_public_header_manifest(target)
     local public_header_prefix = get_public_header_prefix(target)
@@ -141,14 +152,16 @@ local function export_public_headers(target)
     os.mkdir(export_include_root)
 
     for _, entry in ipairs(manifest.entries) do
-        local rewritten = rewrite_public_header_content(target, manifest, entry.source, io.readfile(entry.source))
         local output = path.join(export_include_root, entry.relative)
         os.mkdir(path.directory(output))
-        io.writefile(output, rewritten)
-    end
 
-    -- 把构建生成的 config.h 一起并入发布头文件树，供重写后的公共头引用。
-    os.cp("$(builddir)/config/config.h", path.join(export_include_root, "config.h"))
+        if entry.generated then
+            os.cp(entry.source, output)
+        else
+            local rewritten = rewrite_public_header_content(manifest, entry.source, io.readfile(entry.source))
+            io.writefile(output, rewritten)
+        end
+    end
 
     return {
         root = export_root,

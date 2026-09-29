@@ -20,7 +20,7 @@ class Channel;
 class Poller
 {
 
-    CLASS_NONCOPYABLE(Poller)
+    DMUDUO_CLASS_NONCOPYABLE(Poller)
 
 public:
 

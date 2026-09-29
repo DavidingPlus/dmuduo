@@ -15,7 +15,7 @@ class EventLoop;
 class EventLoopThread
 {
 
-    CLASS_NONCOPYABLE(EventLoopThread)
+    DMUDUO_CLASS_NONCOPYABLE(EventLoopThread)
 
 public:
 

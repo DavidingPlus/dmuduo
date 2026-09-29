@@ -60,7 +60,7 @@ enum class LogLevel
 class Logger
 {
 
-    CLASS_NONCOPYABLE(Logger)
+    DMUDUO_CLASS_NONCOPYABLE(Logger)
 
 public:
 

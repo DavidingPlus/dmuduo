@@ -18,7 +18,7 @@ class EventLoop;
 class Channel
 {
 
-    CLASS_NONCOPYABLE(Channel)
+    DMUDUO_CLASS_NONCOPYABLE(Channel)
 
 public:
 

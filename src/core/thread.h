@@ -15,7 +15,7 @@
 class Thread
 {
 
-    CLASS_NONCOPYABLE(Thread)
+    DMUDUO_CLASS_NONCOPYABLE(Thread)
 
 public:
 

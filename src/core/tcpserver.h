@@ -25,7 +25,7 @@ class EventLoopThreadPool;
 class TcpServer
 {
 
-    CLASS_NONCOPYABLE(TcpServer)
+    DMUDUO_CLASS_NONCOPYABLE(TcpServer)
 
 public:
 

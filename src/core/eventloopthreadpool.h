@@ -20,7 +20,7 @@ class EventLoopThread;
 class EventLoopThreadPool
 {
 
-    CLASS_NONCOPYABLE(EventLoopThreadPool)
+    DMUDUO_CLASS_NONCOPYABLE(EventLoopThreadPool)
 
 public:
 

@@ -16,7 +16,7 @@ class InetAddress;
 class Acceptor
 {
 
-    CLASS_NONCOPYABLE(Acceptor)
+    DMUDUO_CLASS_NONCOPYABLE(Acceptor)
 
 public:
 

@@ -22,7 +22,7 @@ class Timestamp;
 class TcpConnection : public std::enable_shared_from_this<TcpConnection>
 {
 
-    CLASS_NONCOPYABLE(TcpConnection)
+    DMUDUO_CLASS_NONCOPYABLE(TcpConnection)
 
 public:
 

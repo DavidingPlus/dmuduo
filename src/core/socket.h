@@ -13,7 +13,7 @@ class InetAddress;
 class Socket
 {
 
-    CLASS_NONCOPYABLE(Socket)
+    DMUDUO_CLASS_NONCOPYABLE(Socket)
 
 public:
 
