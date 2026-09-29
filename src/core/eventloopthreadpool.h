@@ -21,7 +21,7 @@ class EventLoopThread;
 // 2. subLoop 运行在独立 IO 线程中，负责处理已建立连接的 IO 事件。
 // 3. 新连接通过 Round-Robin 策略分配到不同 subLoop，实现 IO 负载均衡。
 // EventLoopThread 负责线程生命周期以及创建对应 EventLoop。EventLoopThreadPool 保存 EventLoopThread 的所有权，同时保存 subLoop 的非拥有引用用于事件分发。
-class DMUDUO_API_EXPORTED EventLoopThreadPool
+class EventLoopThreadPool
 {
 
     DMUDUO_CLASS_NONCOPYABLE(EventLoopThreadPool)

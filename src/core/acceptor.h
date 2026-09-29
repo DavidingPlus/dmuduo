@@ -17,7 +17,7 @@ class InetAddress;
 
 
 // Acceptor 封装了服务器监听套接字 fd 以及相关处理方法。
-class DMUDUO_API_EXPORTED Acceptor
+class Acceptor
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Acceptor)

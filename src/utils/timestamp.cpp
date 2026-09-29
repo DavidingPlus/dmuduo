@@ -34,12 +34,6 @@ std::string Timestamp::toString() const
     auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(tp - seconds).count();
     auto time = std::chrono::system_clock::to_time_t(seconds);
 
-    // 本项目只考虑 Linux 操作系统。
-    // #if defined(_WIN32)
-    //     localtime_s(&localTime, &time);
-    // #else
-    //     localtime_r(&time, &localTime);
-    // #endif
     // 避免使用返回静态缓冲区的 std::localtime，减少线程间相互覆盖的风险。
     std::tm localTime{};
     localtime_r(&time, &localTime);

@@ -33,7 +33,7 @@ DMUDUO_NAMESPACE_BEGIN(dmuduo)
  *
  * 前面预留 prependable 空间，用于存放协议头，例如长度字段，避免插入数据时移动已有内容。
  */
-class DMUDUO_API_EXPORTED Buffer
+class Buffer
 {
 
 public:

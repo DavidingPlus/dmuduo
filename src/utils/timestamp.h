@@ -9,7 +9,7 @@
 DMUDUO_NAMESPACE_BEGIN(dmuduo)
 
 
-class DMUDUO_API_EXPORTED Timestamp
+class Timestamp
 {
 
 public:

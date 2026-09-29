@@ -16,7 +16,7 @@ class EventLoop;
 class Channel;
 
 
-class DMUDUO_API_EXPORTED EPollPoller : public Poller
+class EPollPoller : public Poller
 {
 
 public:

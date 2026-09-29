@@ -13,7 +13,7 @@ DMUDUO_NAMESPACE_BEGIN(dmuduo)
 
 
 // 封装 socket 地址类型。
-class DMUDUO_API_EXPORTED InetAddress
+class InetAddress
 {
 
 public:

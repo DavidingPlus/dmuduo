@@ -15,7 +15,7 @@
 DMUDUO_NAMESPACE_BEGIN(dmuduo)
 
 
-class DMUDUO_API_EXPORTED Thread
+class Thread
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Thread)

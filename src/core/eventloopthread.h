@@ -16,7 +16,7 @@ class EventLoop;
 
 
 // 一个运行 EventLoop 的线程（one loop per thread）。EventLoop 自身并不会创建线程，它只是一个事件循环，调用 loop() 后便会一直阻塞，负责监听 IO 事件、处理回调，直到调用 quit() 才会退出。因此，如果希望 EventLoop 运行在独立线程中，就需要创建一个新线程，在线程内部创建 EventLoop，启动 EventLoop::loop()，将 EventLoop* 返回给其他线程，方便通过 runInLoop()/queueInLoop() 等接口向该事件循环投递任务。EventLoopThread 就是对上述流程的封装。需要注意的是：EventLoop 对象是在工作线程内部创建的（栈对象），因此 EventLoopThread 并不拥有 EventLoop，仅保存一个裸指针用于访问，其生命周期由工作线程负责。
-class DMUDUO_API_EXPORTED EventLoopThread
+class EventLoopThread
 {
 
     DMUDUO_CLASS_NONCOPYABLE(EventLoopThread)
