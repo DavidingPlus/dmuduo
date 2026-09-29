@@ -1,3 +1,5 @@
+set_allowedplats("linux")
+
 includes("config.lua")
 
 
