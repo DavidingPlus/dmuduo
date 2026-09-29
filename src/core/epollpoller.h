@@ -8,11 +8,15 @@
 #include <unistd.h>
 #include <sys/epoll.h>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 class Channel;
 
 
-class EPollPoller : public Poller
+class DMUDUO_API_EXPORTED EPollPoller : public Poller
 {
 
 public:
@@ -54,6 +58,9 @@ private:
     // 用于存放 epoll_wait 返回的所有发生的事件的文件描述符事件集。
     EventList m_events = EventList(kInitEventListSize);
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

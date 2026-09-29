@@ -1,6 +1,9 @@
 #include "inetaddress.h"
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 InetAddress::InetAddress(uint16_t port, const std::string &ip)
 {
     m_addr.sin_family = AF_INET;
@@ -24,3 +27,6 @@ std::string InetAddress::toIpPort() const
     ::inet_ntop(AF_INET, &m_addr.sin_addr, ip, sizeof(ip));
     return std::string(ip) + ":" + std::to_string(::ntohs(m_addr.sin_port));
 }
+
+
+DMUDUO_NAMESPACE_END

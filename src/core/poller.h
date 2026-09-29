@@ -6,6 +6,10 @@
 #include <vector>
 #include <unordered_map>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 class Timestamp;
 class Channel;
@@ -17,7 +21,7 @@ class Channel;
 // 1. 监听注册到系统中的文件描述符事件。
 // 2. 获取发生事件的文件描述符。
 // 3. 将发生事件的 Channel 返回给 EventLoop 处理。
-class Poller
+class DMUDUO_API_EXPORTED Poller
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Poller)
@@ -65,6 +69,9 @@ private:
     // 定义 Poller 所属的事件循环 EventLoop。
     EventLoop *m_ownerLoop = nullptr;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

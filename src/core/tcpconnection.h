@@ -13,13 +13,17 @@
 #include <string>
 #include <atomic>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 class Timestamp;
 
 
 // TcpServer -> Acceptor -> 有一个新用户连接，通过 accept 函数拿到 connfd -> TcpConnection 设置回调 -> 设置到 Channel -> Poller -> Channel 回调。
 // TcpConnection 类用 shared_ptr 来管理，继承自 enable_shared_from_this。这是因为其生命周期模糊：可能在连接断开时，还有其他地方持有它的引用，贸然 delete 会造成悬空指针。只有确保其他地方没有持有该对象的引用的时候，才能安全地销毁对象。
-class TcpConnection : public std::enable_shared_from_this<TcpConnection>
+class DMUDUO_API_EXPORTED TcpConnection : public std::enable_shared_from_this<TcpConnection>
 {
 
     DMUDUO_CLASS_NONCOPYABLE(TcpConnection)
@@ -150,6 +154,9 @@ private:
     // 发送数据的缓冲区。用户 send 向 m_outputBuffer 发。
     Buffer m_outputBuffer;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

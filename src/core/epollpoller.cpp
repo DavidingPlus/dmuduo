@@ -9,6 +9,9 @@
 #include <dlog/core/logger.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 EPollPoller::EPollPoller(EventLoop *loop)
     : Poller(loop), m_epollfd(::epoll_create1(EPOLL_CLOEXEC))
 {
@@ -186,3 +189,6 @@ void EPollPoller::update(int operation, Channel *channel)
         }
     }
 }
+
+
+DMUDUO_NAMESPACE_END

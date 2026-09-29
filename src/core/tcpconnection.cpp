@@ -11,6 +11,9 @@
 #include <sys/sendfile.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 TcpConnection::TcpConnection(EventLoop *loop, const std::string &name, int sockfd, const InetAddress &localAddr, const InetAddress &peerAddr)
     : m_loop(NetUtils::CheckLoopNotNull(loop)), m_name(name), m_localAddr(localAddr), m_peerAddr(peerAddr), m_socket(new Socket(sockfd)), m_channel(new Channel(NetUtils::CheckLoopNotNull(loop), sockfd))
 {
@@ -301,3 +304,6 @@ void TcpConnection::shutdownInLoop()
     // 若当前 m_channel 还处于正在写状态，无法半关闭。当 m_outputBuffer 的数据全部向外发送完成，可以切换为本端写半关闭。这正是 kDisconnecting 的收尾语义：不再接收新发送，但允许旧数据发送完成；只有发送队列清空后，才真正关闭写端。
     if (!m_channel->isWriting()) m_socket->shutdownWrite();
 }
+
+
+DMUDUO_NAMESPACE_END

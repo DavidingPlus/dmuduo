@@ -12,6 +12,9 @@
 #include <dlog/core/logger.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 // 线程局部变量，一个线程只有一个。防止一个线程创建多个 EventLoop。
 static thread_local EventLoop *t_loopInThisThread = nullptr;
 
@@ -170,3 +173,6 @@ void EventLoop::doPendingFunctors()
 
     m_callingPendingFunctors = false;
 }
+
+
+DMUDUO_NAMESPACE_END

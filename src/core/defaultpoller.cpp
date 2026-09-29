@@ -5,6 +5,9 @@
 #include <cstdlib>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 Poller *Poller::NewDefaultPoller(EventLoop *loop)
 {
     const char *poller = ::getenv("DMUDUO_DEFAULT_POLLER");
@@ -20,3 +23,6 @@ Poller *Poller::NewDefaultPoller(EventLoop *loop)
         return new EPollPoller(loop); // 生成 epoll 的实例。
     }
 }
+
+
+DMUDUO_NAMESPACE_END

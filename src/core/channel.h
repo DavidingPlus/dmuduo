@@ -8,6 +8,10 @@
 
 #include <sys/epoll.h>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class Timestamp;
 class EventLoop;
 
@@ -15,7 +19,7 @@ class EventLoop;
 // 在 TCP 网络编程中，想要 IO 多路复用监听某个文件描述符，就要把这个 fd 和该 fd 感兴趣的事件通过 epollctl 注册到 IO 多路复用模块（我管它叫事件监听器）上。当事件监听器监听到该 fd 发生了某个事件。事件监听器返回 [发生事件的 fd 集合] 以及 [每个 fd 都发生了什么事件]。
 // Channel 类则封装了一个 [fd] 和这个 [fd 感兴趣事件] 以及事件监听器监听到 [该 fd 实际发生的事件]。同时 Channel 类还提供了设置该 fd 的感兴趣事件，以及将该 fd 及其感兴趣事件注册到事件监听器或从事件监听器上移除，以及保存了该 fd 的每种事件对应的处理函数。Channel 类其实相当于一个文件描述符的保姆！
 // 理清楚 EventLoop、Channel、Poller 之间的关系。Reactor 模型上对应多路事件分发器。Channel 理解为通道，封装了 sockfd 和其感兴趣的 event，如 EPOLLIN、EPOLLOUT 事件，还绑定了 poller 返回的具体事件。
-class Channel
+class DMUDUO_API_EXPORTED Channel
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Channel)
@@ -152,6 +156,9 @@ private:
 
     EventCallback m_errorCallback;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

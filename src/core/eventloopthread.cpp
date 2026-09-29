@@ -3,6 +3,9 @@
 #include "eventloop.h"
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 EventLoopThread::~EventLoopThread()
 {
     m_exiting = true;
@@ -59,3 +62,6 @@ void EventLoopThread::threadFunc()
         m_loop = nullptr;
     }
 }
+
+
+DMUDUO_NAMESPACE_END

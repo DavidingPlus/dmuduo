@@ -5,6 +5,9 @@
 #include <semaphore.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 std::atomic_int Thread::m_numCreated(0);
 
 
@@ -57,3 +60,6 @@ void Thread::setDefaultName()
 
     if (m_name.empty()) m_name = "Thread" + std::to_string(num);
 }
+
+
+DMUDUO_NAMESPACE_END

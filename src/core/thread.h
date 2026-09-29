@@ -12,7 +12,10 @@
 #include <unistd.h>
 
 
-class Thread
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
+class DMUDUO_API_EXPORTED Thread
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Thread)
@@ -63,6 +66,9 @@ private:
     // 线程名称。
     std::string m_name;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

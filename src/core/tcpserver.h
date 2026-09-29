@@ -13,6 +13,10 @@
 #include <atomic>
 #include <unordered_map>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 class EventLoopThreadPool;
 
@@ -22,7 +26,7 @@ class EventLoopThreadPool;
 // 1. Eventloop 注册的 Channel。eventfd 主要是唤醒 epoll_wait，当在执行 pending 的时候又来了新的回调防止阻塞太久。
 // 2. Acceptor 注册的 Channel，其目的是就是 listenfd 新连接可到的时候，调用 TcpServer::newConnection() 创建 TcpConnection 对象。
 // 3. TcpConnection 会注册四种 fd 感兴趣的事件，也就是 TcpConnection 对应的 Channel。
-class TcpServer
+class DMUDUO_API_EXPORTED TcpServer
 {
 
     DMUDUO_CLASS_NONCOPYABLE(TcpServer)
@@ -109,6 +113,9 @@ private:
     // 保存所有的连接。
     ConnectionMap m_connections;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

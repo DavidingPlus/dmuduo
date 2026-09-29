@@ -15,6 +15,9 @@
 #include <netinet/tcp.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 void Socket::bindAddress(const InetAddress &localaddr)
 {
     if (0 != ::bind(m_sockfd, (sockaddr *)localaddr.getSockAddr(), sizeof(sockaddr_in))) DLOG_FATAL() << fmt::format("Socket::bindAddress sockfd: {} failed", m_sockfd);
@@ -77,3 +80,6 @@ void Socket::setKeepAlive(bool on)
     int optval = on ? 1 : 0;
     ::setsockopt(m_sockfd, SOL_SOCKET, SO_KEEPALIVE, &optval, sizeof(optval));
 }
+
+
+DMUDUO_NAMESPACE_END

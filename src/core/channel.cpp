@@ -8,6 +8,9 @@
 #include <dlog/core/logger.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 void Channel::handleEvent(const Timestamp &receiveTime)
 {
     if (m_tied)
@@ -69,3 +72,6 @@ void Channel::handleEventWithGuard(const Timestamp &receiveTime)
         if (m_writeCallback) m_writeCallback();
     }
 }
+
+
+DMUDUO_NAMESPACE_END

@@ -5,12 +5,16 @@
 
 #include <unistd.h>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class InetAddress;
 
 
 // Socket 类只有一个成员 sockfd，该类的作用就是用于管理 TCP 连接对应的 sockfd 的生命周期（析构的时候 close 该 sockfd），以及提供一些函数来修改 sockfd 上的选项，比如 Nagel 算法、设置地址复用等。
 // TODO 目前仅支持 TCP。
-class Socket
+class DMUDUO_API_EXPORTED Socket
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Socket)
@@ -52,6 +56,9 @@ private:
 
     const int m_sockfd = -1;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

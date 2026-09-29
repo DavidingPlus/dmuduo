@@ -6,6 +6,9 @@
 #include <fmt/chrono.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 Timestamp Timestamp::Now()
 {
     // 获取当前系统时间。
@@ -44,3 +47,6 @@ std::string Timestamp::toString() const
 
     return fmt::format("{:%Y/%m/%d %H:%M:%S}.{:09}", localTime, nanoseconds);
 }
+
+
+DMUDUO_NAMESPACE_END

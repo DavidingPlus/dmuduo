@@ -1,8 +1,13 @@
 #ifndef _DMUDUO_BUFFER_H_
 #define _DMUDUO_BUFFER_H_
 
+#include "globalmacros.h"
+
 #include <vector>
 #include <string>
+
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
 
 
 /**
@@ -28,7 +33,7 @@
  *
  * 前面预留 prependable 空间，用于存放协议头，例如长度字段，避免插入数据时移动已有内容。
  */
-class Buffer
+class DMUDUO_API_EXPORTED Buffer
 {
 
 public:
@@ -100,6 +105,9 @@ private:
 
     size_t m_writerIndex = kPrependSize;
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

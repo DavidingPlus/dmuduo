@@ -1,14 +1,19 @@
 #ifndef _DMUDUO_INETADDRESS_H_
 #define _DMUDUO_INETADDRESS_H_
 
+#include "globalmacros.h"
+
 #include <string>
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 // 封装 socket 地址类型。
-class InetAddress
+class DMUDUO_API_EXPORTED InetAddress
 {
 
 public:
@@ -32,6 +37,9 @@ private:
 
     sockaddr_in m_addr{};
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

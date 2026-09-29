@@ -1,10 +1,15 @@
 #ifndef _DMUDUO_TIMESTAMP_H_
 #define _DMUDUO_TIMESTAMP_H_
 
+#include "globalmacros.h"
+
 #include <string>
 
 
-class Timestamp
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
+class DMUDUO_API_EXPORTED Timestamp
 {
 
 public:
@@ -27,6 +32,9 @@ private:
 
     int64_t m_microSecondsSinceEpoch = static_cast<int64_t>(0);
 };
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

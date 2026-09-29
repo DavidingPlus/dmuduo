@@ -12,6 +12,9 @@
 #include <sys/socket.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 namespace NetUtils
 {
 
@@ -36,3 +39,6 @@ namespace NetUtils
     }
 
 }
+
+
+DMUDUO_NAMESPACE_END

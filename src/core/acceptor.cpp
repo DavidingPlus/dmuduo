@@ -9,6 +9,9 @@
 #include <dlog/core/logger.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 Acceptor::Acceptor(EventLoop *loop, const InetAddress &listenAddr, bool reuseport)
     : m_mainLoop(NetUtils::CheckLoopNotNull(loop)), m_acceptSocket(NetUtils::CreateSocketNonblocking()), m_acceptChannel(NetUtils::CheckLoopNotNull(loop), m_acceptSocket.fd())
 {
@@ -75,3 +78,6 @@ void Acceptor::handleRead()
         if (EMFILE == errno) DLOG_ERROR() << fmt::format("{}:{}:{} sockfd reached limit", __FILE__, __FUNCTION__, __LINE__);
     }
 }
+
+
+DMUDUO_NAMESPACE_END

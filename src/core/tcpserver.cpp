@@ -11,6 +11,9 @@
 #include <dlog/core/logger.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 // 这里不能简单的直接使用 m_name 或 m_mainLoop 去初始化后面的成员来“图省事”。原因有两个：
 // 1. C++ 成员初始化的真实执行顺序只看类里的声明顺序，不看这里初始化列表的书写顺序。如果想要使用的话必须在代码里保证声明顺序的正确性。
 // 2. TcpServer 中 m_threadPool 声明在 m_name 前面；如果写成用 m_name 初始化 m_threadPool，即使初始化列表里把 m_name 写在前面，执行到 m_threadPool 时 m_name 仍然尚未构造，属于未定义行为。
@@ -110,3 +113,6 @@ void TcpServer::removeConnectionInLoop(const TcpConnectionPtr &conn)
     // 这里选择使用 queueInLoop() 延迟执行 TcpConnection::connectDestroyed()，是为了让当前事件循环中正在处理的关闭事件流程先完整结束，再在下一轮 EventLoop 中安全地清理 TcpConnection 相关资源。
     ioLoop->queueInLoop(std::bind(&TcpConnection::connectDestroyed, conn));
 }
+
+
+DMUDUO_NAMESPACE_END

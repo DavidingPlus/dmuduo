@@ -4,6 +4,9 @@
 #include <sys/uio.h>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 void Buffer::retrieve(size_t len)
 {
     // 说明应用只读取了可读缓冲区数据的一部分，就是 len 长度，还剩下 [m_readerIndex+=len, m_writerIndex] 的数据未读。
@@ -134,3 +137,6 @@ void Buffer::makeSpace(size_t len)
         m_buffer.resize(m_writerIndex + len);
     }
 }
+
+
+DMUDUO_NAMESPACE_END

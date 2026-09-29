@@ -6,6 +6,9 @@
 #include <cassert>
 
 
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 /*
                      Main Reactor
                          |
@@ -87,3 +90,6 @@ std::vector<EventLoop *> EventLoopThreadPool::getAllLoops()
         return m_subLoops;
     }
 }
+
+
+DMUDUO_NAMESPACE_END

@@ -1,6 +1,12 @@
 #ifndef _DMUDUO_NETUTILS_H_
 #define _DMUDUO_NETUTILS_H_
 
+#include "globalmacros.h"
+
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 
 
@@ -20,15 +26,18 @@ namespace NetUtils
      *     eventfd 还可以用于同亲缘关系的进程之间的通信。
      *     eventfd 用于不同亲缘关系的进程之间通信的话需要把 eventfd 放在几个进程共享的共享内存中（没有测试过）。
      */
-    int CreateEventfd();
+    DMUDUO_API_EXPORTED int CreateEventfd();
 
     // 创建一个非阻塞的 socket。
-    int CreateSocketNonblocking();
+    DMUDUO_API_EXPORTED int CreateSocketNonblocking();
 
     // 用于 TcpServer 和 TcpConnection 构造函数中，首先判断传入的 loop 是否有效，无效直接终止程序。
-    EventLoop *CheckLoopNotNull(EventLoop *loop);
+    DMUDUO_API_EXPORTED EventLoop *CheckLoopNotNull(EventLoop *loop);
 
 } // namespace NetUtils
+
+
+DMUDUO_NAMESPACE_END
 
 
 #endif

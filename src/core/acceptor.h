@@ -8,12 +8,16 @@
 
 #include <functional>
 
+
+DMUDUO_NAMESPACE_BEGIN(dmuduo)
+
+
 class EventLoop;
 class InetAddress;
 
 
 // Acceptor 封装了服务器监听套接字 fd 以及相关处理方法。
-class Acceptor
+class DMUDUO_API_EXPORTED Acceptor
 {
 
     DMUDUO_CLASS_NONCOPYABLE(Acceptor)
@@ -58,5 +62,9 @@ private:
     // 是否在监听。
     bool m_listening = false;
 };
+
+
+DMUDUO_NAMESPACE_END
+
 
 #endif
