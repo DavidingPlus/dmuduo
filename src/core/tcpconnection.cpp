@@ -1,9 +1,12 @@
 #include "tcpconnection.h"
 
-#include "logger.h"
 #include "netutils.h"
 #include "timestamp.h"
 #include "eventloop.h"
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 #include <sys/sendfile.h>
 
@@ -17,14 +20,14 @@ TcpConnection::TcpConnection(EventLoop *loop, const std::string &name, int sockf
     m_channel->setCloseCallback(std::bind(&TcpConnection::handleClose, this));
     m_channel->setErrorCallback(std::bind(&TcpConnection::handleError, this));
 
-    LOG_INFO("TcpConnection::ctor[{}] at fd={}", m_name, sockfd);
+    DLOG_INFO() << fmt::format("TcpConnection::ctor[{}] at fd={}", m_name, sockfd);
 
     m_socket->setKeepAlive(true);
 }
 
 TcpConnection::~TcpConnection()
 {
-    LOG_INFO("TcpConnection::dtor[{}] at fd={} state={}", m_name, m_channel->fd(), static_cast<int>(m_state.load()));
+    DLOG_INFO() << fmt::format("TcpConnection::dtor[{}] at fd={} state={}", m_name, m_channel->fd(), static_cast<int>(m_state.load()));
 }
 
 void TcpConnection::send(const std::string &data)
@@ -39,7 +42,7 @@ void TcpConnection::send(const std::string &data)
     }
     else
     {
-        LOG_ERROR("TcpConnection::send() - not connected");
+        DLOG_ERROR() << "TcpConnection::send() - not connected";
     }
 }
 
@@ -51,7 +54,7 @@ void TcpConnection::sendFile(int fileDescriptor, off_t offset, size_t count)
     }
     else
     {
-        LOG_ERROR("TcpConnection::sendFile() - not connected");
+        DLOG_ERROR() << "TcpConnection::sendFile() - not connected";
     }
 }
 
@@ -115,7 +118,7 @@ void TcpConnection::handleRead(const Timestamp &receiveTime)
     else
     {
         errno = savedErrno;
-        LOG_ERROR("TcpConnection::handleRead() failed, errno:{}", errno);
+        DLOG_ERROR() << fmt::format("TcpConnection::handleRead() failed, errno:{}", errno);
 
         handleError();
     }
@@ -146,18 +149,18 @@ void TcpConnection::handleWrite()
         else
         {
             errno = savedErrno;
-            LOG_ERROR("TcpConnection::handleWrite() writeFd failed, errno:{}", errno);
+            DLOG_ERROR() << fmt::format("TcpConnection::handleWrite() writeFd failed, errno:{}", errno);
         }
     }
     else
     {
-        LOG_ERROR("TcpConnection fd={} is down, no more writing", m_channel->fd());
+        DLOG_ERROR() << fmt::format("TcpConnection fd={} is down, no more writing", m_channel->fd());
     }
 }
 
 void TcpConnection::handleClose()
 {
-    LOG_INFO("TcpConnection::handleClose() fd={} state={}", m_channel->fd(), static_cast<int>(m_state.load()));
+    DLOG_INFO() << fmt::format("TcpConnection::handleClose() fd={} state={}", m_channel->fd(), static_cast<int>(m_state.load()));
     setState(StateE::kDisconnected);
     m_channel->disableAll();
 
@@ -186,7 +189,7 @@ void TcpConnection::handleError()
         err = errno;
     }
 
-    LOG_ERROR("TcpConnection::handleError name:{} - SO_ERROR:{}", m_name, err);
+    DLOG_ERROR() << fmt::format("TcpConnection::handleError name:{} - SO_ERROR:{}", m_name, err);
 }
 
 void TcpConnection::sendInLoop(const std::string &data)
@@ -198,7 +201,7 @@ void TcpConnection::sendInLoop(const std::string &data)
     // 只有 kDisconnected 才表示“连接已经彻底不能写了”。kDisconnecting 不能在这里直接拦掉，因为它表示的是“优雅关闭进行中”：用户可能刚执行完 send() 就立刻 shutdown()，此时状态虽然已切到 kDisconnecting，但这批数据仍然需要继续发完，随后才能真正 shutdownWrite()。
     if (StateE::kDisconnected == m_state)
     {
-        LOG_ERROR("disconnected, give up writing");
+        DLOG_ERROR() << "disconnected, give up writing";
         return;
     }
 
@@ -223,7 +226,7 @@ void TcpConnection::sendInLoop(const std::string &data)
             // EWOULDBLOCK / EAGAIN 表示非阻塞 socket 当前不可写，常见原因是内核发送缓冲区暂时已满；这不是连接级错误，而是“稍后再试”。只有 errno 不是这两种“可恢复的暂时不可写”错误时，才按真正的写失败来处理。
             if (EWOULDBLOCK != errno && EAGAIN != errno)
             {
-                LOG_ERROR("TcpConnection::sendInLoop()");
+                DLOG_ERROR() << "TcpConnection::sendInLoop()";
 
                 // faultError 表示“这次发送失败是否已经上升为连接级故障”。如果只是 EWOULDBLOCK / EAGAIN，remaining 仍可以进入 m_outputBuffer，等待 EPOLLOUT 再继续发送。但下面两种错误说明连接本身已经坏了：
                 // 1. EPIPE：对端读端已关闭，本端继续写，继续缓存待发送数据已经没有意义。
@@ -262,7 +265,7 @@ void TcpConnection::sendFileInLoop(int fileDescriptor, off_t offset, size_t coun
 
     if (StateE::kDisconnected == m_state)
     {
-        LOG_ERROR("disconnected, give up writing");
+        DLOG_ERROR() << "disconnected, give up writing";
         return;
     }
 
@@ -281,7 +284,7 @@ void TcpConnection::sendFileInLoop(int fileDescriptor, off_t offset, size_t coun
         {
             if (EWOULDBLOCK != errno && EAGAIN != errno)
             {
-                LOG_ERROR("TcpConnection::sendFileInLoop()");
+                DLOG_ERROR() << "TcpConnection::sendFileInLoop()";
 
                 if (EPIPE == errno || ECONNRESET == errno) faultError = true;
             }

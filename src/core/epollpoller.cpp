@@ -1,20 +1,26 @@
 #include "epollpoller.h"
 
 #include "channel.h"
-#include "logger.h"
 #include "timestamp.h"
+#include "config.h"
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 
 EPollPoller::EPollPoller(EventLoop *loop)
     : Poller(loop), m_epollfd(::epoll_create1(EPOLL_CLOEXEC))
 {
-    if (m_epollfd < 0) LOG_FATAL("epoll_create error: {}", errno);
+    if (m_epollfd < 0) DLOG_FATAL() << fmt::format("epoll_create error: {}", errno);
 }
 
 Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
 {
-    // 由于频繁调用 poll，用 LOG_DEBUG 输出日志更好一点更为合理。当遇到并发场景，关闭 DEBUG 日志提升效率。
-    LOG_DEBUG("func={} -> fd total count: {}", __FUNCTION__, m_channels.size());
+    // 由于频繁调用 poll，用 DEBUG 输出日志更好一点更为合理。当遇到并发场景，关闭 DEBUG 日志提升效率。
+#if DMUDUO_CONFIG_DEBUG
+    DLOG_DEBUG() << fmt::format("func={} -> fd total count: {}", __FUNCTION__, m_channels.size());
+#endif
 
     int saveErrno = errno;
     Timestamp now(Timestamp::Now());
@@ -27,7 +33,9 @@ Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
     int numEvents = ::epoll_wait(m_epollfd, m_events.data(), static_cast<int>(m_events.size()), timeoutMs);
     if (numEvents > 0)
     {
-        LOG_DEBUG("{} events happend", numEvents);
+#if DMUDUO_CONFIG_DEBUG
+        DLOG_DEBUG() << fmt::format("{} events happend", numEvents);
+#endif
 
         // 把监听到的 Channel 装进 activeChannels 中（它是一个 vector<Channel*>）。这样，当外界调用完 poll 之后就能拿到事件监听器的监听结果。（activeChannels）。
         fillActiveChannels(numEvents, activeChannels);
@@ -38,7 +46,9 @@ Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
     // 返回值为 0，代表超时。
     else if (0 == numEvents)
     {
-        LOG_DEBUG("{} timeout!", __FUNCTION__);
+#if DMUDUO_CONFIG_DEBUG
+        DLOG_DEBUG() << fmt::format("{} timeout!", __FUNCTION__);
+#endif
     }
     else
     {
@@ -46,7 +56,7 @@ Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
         if (EINTR != saveErrno)
         {
             errno = saveErrno;
-            LOG_ERROR("EPollPoller::poll() error!");
+            DLOG_ERROR() << "EPollPoller::poll() error!";
         }
     }
 
@@ -84,7 +94,7 @@ void EPollPoller::updateChannel(Channel *channel)
     */
 
     const int index = channel->index();
-    LOG_INFO("func={} -> fd={} events={} index={}", __FUNCTION__, channel->fd(), channel->events(), index);
+    DLOG_INFO() << fmt::format("func={} -> fd={} events={} index={}", __FUNCTION__, channel->fd(), channel->events(), index);
 
     if (Channel::kNew == index || Channel::kDeleted == index)
     {
@@ -123,7 +133,7 @@ void EPollPoller::removeChannel(Channel *channel)
     int fd = channel->fd();
     m_channels.erase(fd);
 
-    LOG_INFO("func={} -> fd={}", __FUNCTION__, fd);
+    DLOG_INFO() << fmt::format("func={} -> fd={}", __FUNCTION__, fd);
 
     int index = channel->index();
     if (Channel::kAdded == index) update(EPOLL_CTL_DEL, channel);
@@ -164,15 +174,15 @@ void EPollPoller::update(int operation, Channel *channel)
     {
         if (EPOLL_CTL_ADD == operation)
         {
-            LOG_FATAL("epoll_ctl add error: {}", errno);
+            DLOG_FATAL() << fmt::format("epoll_ctl add error: {}", errno);
         }
         else if (EPOLL_CTL_MOD == operation)
         {
-            LOG_FATAL("epoll_ctl mod error: {}", errno);
+            DLOG_FATAL() << fmt::format("epoll_ctl mod error: {}", errno);
         }
         else
         {
-            LOG_ERROR("epoll_ctl del error: {}", errno);
+            DLOG_ERROR() << fmt::format("epoll_ctl del error: {}", errno);
         }
     }
 }

@@ -1,11 +1,14 @@
 #include "tcpserver.h"
 
-#include "logger.h"
 #include "eventloop.h"
 #include "eventloopthread.h"
 #include "eventloopthreadpool.h"
 #include "netutils.h"
 #include "tcpconnection.h"
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 
 // 这里不能简单的直接使用 m_name 或 m_mainLoop 去初始化后面的成员来“图省事”。原因有两个：
@@ -69,13 +72,13 @@ void TcpServer::newConnection(int sockfd, const InetAddress &peerAddr)
     // m_nextConnId 没有设置为原子类是因为 TcpServer::newConnection() 只在 mainloop 中执行，不涉及线程安全问题。
     std::string connName = fmt::format("{}-{}#{}", m_name, m_ipPort, m_nextConnId++); // MyServer-127.0.0.1:8888#1
 
-    LOG_INFO("TcpServer::newConnection [{}] - new connection [{}] from {}", m_name, connName, peerAddr.toIpPort());
+    DLOG_INFO() << fmt::format("TcpServer::newConnection [{}] - new connection [{}] from {}", m_name, connName, peerAddr.toIpPort());
 
     // 监听到 listen 读事件以后，Acceptor::handleRead() 会调用 accept()，并且将本机连接通信用的 sockfd 和连接方的 peerAddr 传递进来。
     // 通过 sockfd 获取绑定的本机的 ip 地址和端口信息。
     sockaddr_in local{};
     socklen_t addrlen = sizeof(local);
-    if (::getsockname(sockfd, reinterpret_cast<sockaddr *>(&local), &addrlen) < 0) LOG_ERROR("TcpServer::newConnection() getsockname failed");
+    if (::getsockname(sockfd, reinterpret_cast<sockaddr *>(&local), &addrlen) < 0) DLOG_ERROR() << "TcpServer::newConnection() getsockname failed";
 
     InetAddress localAddr(local);
 
@@ -99,7 +102,7 @@ void TcpServer::removeConnection(const TcpConnectionPtr &conn)
 
 void TcpServer::removeConnectionInLoop(const TcpConnectionPtr &conn)
 {
-    LOG_INFO("TcpServer::removeConnectionInLoop [{}] - connection {}", m_name, conn->name());
+    DLOG_INFO() << fmt::format("TcpServer::removeConnectionInLoop [{}] - connection {}", m_name, conn->name());
 
     m_connections.erase(conn->name());
 

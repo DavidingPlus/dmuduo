@@ -1,12 +1,10 @@
-#include <iostream>
-
-#include "logger.h"
+#include <dlog/core/logger.h>
 
 
 int main()
 {
-    LOG_INFO("plain info message");
-    LOG_DEBUG("plain debug message");
-    LOG_ERROR("plain error message");
-    LOG_FATAL("plain fatal message");
+    DLOG_INFO() << "plain info message";
+    DLOG_DEBUG() << "plain debug message";
+    DLOG_ERROR() << "plain error message";
+    DLOG_FATAL() << "plain fatal message";
 }

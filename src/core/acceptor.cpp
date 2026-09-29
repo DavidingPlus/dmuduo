@@ -2,8 +2,11 @@
 
 #include "eventloop.h"
 #include "inetaddress.h"
-#include "logger.h"
 #include "netutils.h"
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 
 Acceptor::Acceptor(EventLoop *loop, const InetAddress &listenAddr, bool reuseport)
@@ -66,9 +69,9 @@ void Acceptor::handleRead()
         if (EAGAIN == errno || EWOULDBLOCK == errno || EINTR == errno) return;
 
         // 遇到错误。
-        LOG_ERROR("{}:{}:{} accept err: {}", __FILE__, __FUNCTION__, __LINE__, errno);
+        DLOG_ERROR() << fmt::format("{}:{}:{} accept err: {}", __FILE__, __FUNCTION__, __LINE__, errno);
 
         // 进程打开文件描述符达到限制。
-        if (EMFILE == errno) LOG_ERROR("{}:{}:{} sockfd reached limit", __FILE__, __FUNCTION__, __LINE__);
+        if (EMFILE == errno) DLOG_ERROR() << fmt::format("{}:{}:{} sockfd reached limit", __FILE__, __FUNCTION__, __LINE__);
     }
 }

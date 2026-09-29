@@ -2,7 +2,10 @@
 
 #include "timestamp.h"
 #include "eventloop.h"
-#include "logger.h"
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 
 void Channel::handleEvent(const Timestamp &receiveTime)
@@ -42,7 +45,7 @@ void Channel::update()
 
 void Channel::handleEventWithGuard(const Timestamp &receiveTime)
 {
-    LOG_INFO("channel handleEvent revents: {}", m_revents);
+    DLOG_INFO() << fmt::format("channel handleEvent revents: {}", m_revents);
 
     // 关闭。
     // 如果 socket 通过 shutdown 关闭写端 SHUT_WR（epoll 触发 EPOLLHUP），并且没有可读数据，那么认为连接已经关闭，触发 close 回调。

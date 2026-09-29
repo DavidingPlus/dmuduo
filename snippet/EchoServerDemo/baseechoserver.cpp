@@ -2,7 +2,8 @@
 
 #include <functional>
 
-#include "logger.h"
+#include <dlog/core/logger.h>
+
 
 BaseEchoServer::BaseEchoServer(EventLoop *loop, const InetAddress &addr, const std::string &name, int threadNum)
     : m_server(loop, addr, name), m_loop(loop)
@@ -21,11 +22,11 @@ void BaseEchoServer::onConnection(const TcpConnectionPtr &conn)
     // 这里不做额外状态管理，只保留最基础的连接生命周期日志。
     if (conn->connected())
     {
-        LOG_INFO("Connection UP : {}", conn->peerAddress().toIpPort());
+        DLOG_INFO() << "Connection UP : " << conn->peerAddress().toIpPort();
         return;
     }
 
-    LOG_INFO("Connection DOWN : {}", conn->peerAddress().toIpPort());
+    DLOG_INFO() << "Connection DOWN : " << conn->peerAddress().toIpPort();
 }
 
 void BaseEchoServer::onMessage(const TcpConnectionPtr &conn, Buffer &buf, const Timestamp &time)

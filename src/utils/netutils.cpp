@@ -1,6 +1,8 @@
 #include "netutils.h"
 
-#include "logger.h"
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 #include <cerrno>
 
@@ -16,20 +18,20 @@ namespace NetUtils
     int CreateEventfd()
     {
         int evtfd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
-        if (evtfd < 0) LOG_FATAL("eventfd error: {}", errno);
+        if (evtfd < 0) DLOG_FATAL() << fmt::format("eventfd error: {}", errno);
         return evtfd;
     }
 
     int CreateSocketNonblocking()
     {
         int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
-        if (sockfd < 0) LOG_FATAL("{}:{}:{} listen socket create err: {}", __FILE__, __FUNCTION__, __LINE__, errno);
+        if (sockfd < 0) DLOG_FATAL() << fmt::format("{}:{}:{} listen socket create err: {}", __FILE__, __FUNCTION__, __LINE__, errno);
         return sockfd;
     }
 
     EventLoop *CheckLoopNotNull(EventLoop *loop)
     {
-        if (!loop) LOG_FATAL("{}:{}:{} mainLoop is null!", __FILE__, __FUNCTION__, __LINE__);
+        if (!loop) DLOG_FATAL() << fmt::format("{}:{}:{} mainLoop is null!", __FILE__, __FUNCTION__, __LINE__);
         return loop;
     }
 

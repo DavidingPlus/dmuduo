@@ -2,10 +2,14 @@
 
 #include "poller.h"
 #include "channel.h"
-#include "logger.h"
 #include "netutils.h"
+#include "config.h"
 
 #include <cassert>
+
+#include <fmt/format.h>
+
+#include <dlog/core/logger.h>
 
 
 // 线程局部变量，一个线程只有一个。防止一个线程创建多个 EventLoop。
@@ -17,14 +21,16 @@ EventLoop::EventLoop()
 {
     if (t_loopInThisThread)
     {
-        LOG_FATAL("Another EventLoop {} exists in this thread {}", fmt::ptr(t_loopInThisThread), m_threadId);
+        DLOG_FATAL() << fmt::format("Another EventLoop {} exists in this thread {}", fmt::ptr(t_loopInThisThread), m_threadId);
     }
     else
     {
         t_loopInThisThread = this;
     }
 
-    LOG_DEBUG("EventLoop created {} in thread {}", fmt::ptr(this), m_threadId);
+#if DMUDUO_CONFIG_DEBUG
+    DLOG_DEBUG() << fmt::format("EventLoop created {} in thread {}", fmt::ptr(this), m_threadId);
+#endif
 
     // 和 pipe() 管道类似，eventfd 用于 EventLoop 线程间通信。而 m_wakeupFd 就是专门用于存储 eventfd 的文件描述符。
     // 当一个线程需要唤醒另一个 EventLoop 时，通过 write(eventfd) 写入通知。目标 EventLoop 将 eventfd 封装为 Channel，并监听 EPOLLIN 事件。eventfd 被写入后变为可读状态，epoll_wait 返回，EventLoop 被唤醒，随后通过 handleRead() 清空 eventfd，并执行 pendingFunctors 中的任务。每一个 EventLoop 都将监听 m_wakeupChannel 的 EPOLL 读事件了。
@@ -55,7 +61,7 @@ void EventLoop::loop()
     m_looping = true;
     m_quit = false;
 
-    LOG_INFO("EventLoop {} start looping", fmt::ptr(this));
+    DLOG_INFO() << fmt::format("EventLoop {} start looping", fmt::ptr(this));
 
     while (!m_quit)
     {
@@ -72,7 +78,7 @@ void EventLoop::loop()
         doPendingFunctors();
     }
 
-    LOG_INFO("EventLoop {} stop looping", fmt::ptr(this));
+    DLOG_INFO() << fmt::format("EventLoop {} stop looping", fmt::ptr(this));
 
     m_looping = false;
 }
@@ -119,7 +125,7 @@ void EventLoop::wakeup()
 {
     uint64_t one = 1;
     ssize_t n = ::write(m_wakeupFd, &one, sizeof(one));
-    if (sizeof(one) != n) LOG_ERROR("EventLoop::wakeup() writes {} bytes instead of 8", n);
+    if (sizeof(one) != n) DLOG_ERROR() << fmt::format("EventLoop::wakeup() writes {} bytes instead of 8", n);
 }
 
 void EventLoop::updateChannel(Channel *channel)
@@ -141,7 +147,7 @@ void EventLoop::handleRead()
 {
     uint64_t one = 1;
     ssize_t n = ::read(m_wakeupFd, &one, sizeof(one));
-    if (sizeof(one) != n) LOG_ERROR("EventLoop::handleRead() reads {} bytes instead of 8", n);
+    if (sizeof(one) != n) DLOG_ERROR() << fmt::format("EventLoop::handleRead() reads {} bytes instead of 8", n);
 }
 
 void EventLoop::doPendingFunctors()
