@@ -62,7 +62,9 @@ void EventLoop::loop()
     // 每一个 Channel 的处理函数会根据 Channel 类中封装的实际发生的事件，执行 Channel 类中封装的各事件处理函数。比如一个 Channel 发生了可读事件，可写事件，则这个 Channel 的 HandlerEvent() 就会调用提前注册在这个 Channel 的可读事件和可写事件处理函数，又比如另一个 Channel 只发生了可读事件，那么 HandlerEvent() 就只会调用提前注册在这个 Channel 中的可读事件处理函数。
 
     m_looping = true;
-    m_quit = false;
+
+    // m_quit 在 EventLoop 构造时已初始化为 false，不要在这里重置：EventLoopThread 可能在 loop() 开始前发布该对象，此时其他线程可能已经调用 quit()。
+    // m_quit = false;
 
     DLOG_INFO() << fmt::format("EventLoop {} start looping", fmt::ptr(this));
 
