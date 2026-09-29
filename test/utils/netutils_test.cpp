@@ -9,6 +9,10 @@
 #include "netutils.h"
 
 
+using namespace dmuduo;
+using namespace dmuduo::NetUtils;
+
+
 // 验证 CreateEventfd() 创建出的 eventfd 具备非阻塞/CLOEXEC 属性，并且初始计数器为 0。
 TEST(NetUtilsTest, CreateEventfdSetsExpectedFlagsAndStartsEmpty)
 {

@@ -12,6 +12,8 @@
 #include "nettestutils.h"
 #include "timestamp.h"
 
+
+using namespace dmuduo;
 using namespace NetTestUtils;
 
 

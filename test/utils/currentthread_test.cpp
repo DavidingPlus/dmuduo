@@ -7,6 +7,10 @@
 #include "currentthread.h"
 
 
+using namespace dmuduo;
+using namespace dmuduo::CurrentThread;
+
+
 // 这个 fixture 专门负责在每个用例前后清空 thread_local 缓存，避免测试互相污染。
 class CurrentThreadTest : public testing::Test
 {

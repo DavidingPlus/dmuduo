@@ -21,6 +21,9 @@
 #include "timestamp.h"
 
 
+using namespace dmuduo;
+
+
 namespace NetTestUtils
 {
 

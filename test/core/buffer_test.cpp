@@ -9,6 +9,8 @@
 #include "buffer.h"
 #include "nettestutils.h"
 
+
+using namespace dmuduo;
 using namespace NetTestUtils;
 
 
