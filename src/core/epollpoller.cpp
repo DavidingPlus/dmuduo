@@ -6,7 +6,10 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <cstdio>
+#include <cstdlib>
+
+#include <dlog/core/log.h>
 
 
 DMUDUO_NAMESPACE_BEGIN(dmuduo)
@@ -15,7 +18,7 @@ DMUDUO_NAMESPACE_BEGIN(dmuduo)
 EPollPoller::EPollPoller(EventLoop *loop)
     : Poller(loop), m_epollfd(::epoll_create1(EPOLL_CLOEXEC))
 {
-    if (m_epollfd < 0) DLOG_FATAL() << fmt::format("epoll_create error: {}", errno);
+    if (m_epollfd < 0) { fmt::print(stderr, "epoll_create error: {}\n", errno); std::abort(); }
 }
 
 Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
@@ -177,11 +180,11 @@ void EPollPoller::update(int operation, Channel *channel)
     {
         if (EPOLL_CTL_ADD == operation)
         {
-            DLOG_FATAL() << fmt::format("epoll_ctl add error: {}", errno);
+            fmt::print(stderr, "epoll_ctl add error: {}\n", errno); std::abort();
         }
         else if (EPOLL_CTL_MOD == operation)
         {
-            DLOG_FATAL() << fmt::format("epoll_ctl mod error: {}", errno);
+            fmt::print(stderr, "epoll_ctl mod error: {}\n", errno); std::abort();
         }
         else
         {

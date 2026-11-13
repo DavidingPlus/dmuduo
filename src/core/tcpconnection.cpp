@@ -6,7 +6,7 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <dlog/core/log.h>
 
 #include <sys/sendfile.h>
 

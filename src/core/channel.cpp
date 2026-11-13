@@ -5,7 +5,7 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <dlog/core/log.h>
 
 
 DMUDUO_NAMESPACE_BEGIN(dmuduo)

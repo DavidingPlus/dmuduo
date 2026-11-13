@@ -20,6 +20,12 @@ using namespace dmuduo;
 using namespace NetTestUtils;
 
 
+TEST(SocketTest, BindAndListenFailuresDie)
+{
+    ASSERT_DEATH({ Socket socket(-1); socket.bindAddress(InetAddress(0, "127.0.0.1")); }, "bindAddress");
+    ASSERT_DEATH({ Socket socket(-1); socket.listen(); }, "listen");
+}
+
 // 验证 Socket 析构时会关闭它拥有的 fd。
 TEST(SocketTest, DestructorClosesOwnedFileDescriptor)
 {

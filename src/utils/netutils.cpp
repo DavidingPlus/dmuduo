@@ -2,7 +2,10 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <cstdio>
+#include <cstdlib>
+
+#include <dlog/core/log.h>
 
 #include <cerrno>
 
@@ -21,20 +24,20 @@ namespace NetUtils
     int CreateEventfd()
     {
         int evtfd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
-        if (evtfd < 0) DLOG_FATAL() << fmt::format("eventfd error: {}", errno);
+        if (evtfd < 0) { fmt::print(stderr, "eventfd error: {}\n", errno); std::abort(); }
         return evtfd;
     }
 
     int CreateSocketNonblocking()
     {
         int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
-        if (sockfd < 0) DLOG_FATAL() << fmt::format("{}:{}:{} listen socket create err: {}", __FILE__, __FUNCTION__, __LINE__, errno);
+        if (sockfd < 0) { fmt::print(stderr, "{}:{}:{} listen socket create err: {}\n", __FILE__, __FUNCTION__, __LINE__, errno); std::abort(); }
         return sockfd;
     }
 
     EventLoop *CheckLoopNotNull(EventLoop *loop)
     {
-        if (!loop) DLOG_FATAL() << fmt::format("{}:{}:{} mainLoop is null!", __FILE__, __FUNCTION__, __LINE__);
+        if (!loop) { fmt::print(stderr, "{}:{}:{} mainLoop is null!\n", __FILE__, __FUNCTION__, __LINE__); std::abort(); }
         return loop;
     }
 

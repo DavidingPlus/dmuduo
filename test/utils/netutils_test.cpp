@@ -71,5 +71,5 @@ TEST(NetUtilsTest, CheckLoopNotNullReturnsInputLoop)
 // 验证 CheckLoopNotNull() 在收到空指针时会按约定终止进程。
 TEST(NetUtilsTest, CheckLoopNotNullDiesOnNullptr)
 {
-    ASSERT_DEATH({ (void)NetUtils::CheckLoopNotNull(nullptr); }, ".*");
+    ASSERT_DEATH({ (void)NetUtils::CheckLoopNotNull(nullptr); }, "mainLoop is null");
 }

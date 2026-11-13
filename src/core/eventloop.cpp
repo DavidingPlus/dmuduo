@@ -9,7 +9,10 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <cstdio>
+#include <cstdlib>
+
+#include <dlog/core/log.h>
 
 
 DMUDUO_NAMESPACE_BEGIN(dmuduo)
@@ -24,7 +27,7 @@ EventLoop::EventLoop()
 {
     if (t_loopInThisThread)
     {
-        DLOG_FATAL() << fmt::format("Another EventLoop {} exists in this thread {}", fmt::ptr(t_loopInThisThread), m_threadId);
+        fmt::print(stderr, "Another EventLoop {} exists in this thread {}\n", fmt::ptr(t_loopInThisThread), m_threadId); std::abort();
     }
     else
     {

@@ -12,7 +12,7 @@ local export_headers_import_options = {rootdir = os.scriptdir(), anonymous = tru
 -- 对外包依赖的唯一清单，每项填写 XMake 依赖规格字符串，例如 "fmt >=10.2.1"。common 对所有平台生效；windows 和 linux 分别只在对应目标平台生效。
 -- 此表同时驱动 add_requires、target 的 add_packages 和发布 metadata；新增依赖只需在这里登记。
 local package_dependencies = {
-    common = {"fmt", "dlog >=1.0.3"},
+    common = {"fmt", "dlog >=1.1.0"},
     windows = {},
     linux = {}
 }

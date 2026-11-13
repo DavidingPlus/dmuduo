@@ -14,6 +14,11 @@ using namespace dmuduo;
 using namespace std::chrono_literals;
 
 
+TEST(EventLoopTest, DuplicateLoopInSameThreadDies)
+{
+    ASSERT_DEATH({ EventLoop first; EventLoop second; }, "Another EventLoop");
+}
+
 // 验证在所属线程里调用 runInLoop 会直接同步执行。
 TEST(EventLoopTest, RunInLoopExecutesImmediatelyInOwnerThread)
 {

@@ -1,4 +1,4 @@
-#include <dlog/core/logger.h>
+#include <dlog/core/log.h>
 
 
 int main()

@@ -4,7 +4,10 @@
 
 #include <fmt/format.h>
 
-#include <dlog/core/logger.h>
+#include <cstdio>
+#include <cstdlib>
+
+#include <dlog/core/log.h>
 
 #include <cstring>
 
@@ -20,12 +23,12 @@ DMUDUO_NAMESPACE_BEGIN(dmuduo)
 
 void Socket::bindAddress(const InetAddress &localaddr)
 {
-    if (0 != ::bind(m_sockfd, (sockaddr *)localaddr.getSockAddr(), sizeof(sockaddr_in))) DLOG_FATAL() << fmt::format("Socket::bindAddress sockfd: {} failed", m_sockfd);
+    if (0 != ::bind(m_sockfd, (sockaddr *)localaddr.getSockAddr(), sizeof(sockaddr_in))) { fmt::print(stderr, "Socket::bindAddress sockfd: {} failed\n", m_sockfd); std::abort(); }
 }
 
 void Socket::listen()
 {
-    if (0 != ::listen(m_sockfd, 1024)) DLOG_FATAL() << fmt::format("Socket::listen() sockfd: {} failed", m_sockfd);
+    if (0 != ::listen(m_sockfd, 1024)) { fmt::print(stderr, "Socket::listen() sockfd: {} failed\n", m_sockfd); std::abort(); }
 }
 
 int Socket::accept(InetAddress *peeraddr)
